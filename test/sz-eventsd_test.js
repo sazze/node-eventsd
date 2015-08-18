@@ -102,6 +102,146 @@ describe('sz-eventsd', function () {
       });
     });
 
+    // reusing the connection maybe not a good idea?
+    //
+    //it('reuse the connection', function (done) {
+    //  var response;
+    //  var expected = {
+    //    "time": "Fri, 02 Mar 2012 11:38:49 GMT",
+    //    "microtime": 0.321,
+    //    "msg": {
+    //      "test": "hello world"
+    //    },
+    //    "routingKey": "event.test.env.test.application.sz-eventsdTest"
+    //  };
+    //
+    //  test_server = createTestServer(port, function (data) {
+    //    //response = JSON.parse(data);
+    //    //console.log(response);
+    //  });
+    //
+    //  var events = new EventsD({autoClose: false});
+    //
+    //  events.send('test', {test: 'hello world'}, function (err) {
+    //    expect(err).to.equal(null);
+    //
+    //    events.send('test', {test: 'hello world 2'}, function (err) {
+    //      expect(err).to.equal(null);
+    //      events.close();
+    //      done();
+    //    });
+    //  });
+    //});
+
+    it('reuse the eventsd object', function (done) {
+      var response;
+      var expected = {
+        "time": "Fri, 02 Mar 2012 11:38:49 GMT",
+        "microtime": 0.321,
+        "msg": {
+          "test": "hello world"
+        },
+        "routingKey": "event.test.env.test.application.sz-eventsdTest"
+      };
+
+      test_server = createTestServer(port, function (data) {
+        //response = JSON.parse(data);
+        //console.log(response);
+      });
+
+      var events = new EventsD();
+
+      events.send('test', {test: 'hello world'}, function (err) {
+        expect(err).to.equal(null);
+
+        events.send('test', {test: 'hello world 2'}, function (err) {
+          expect(err).to.equal(null);
+          done();
+        });
+      });
+    });
+
+    it('send events without waiting', function (done) {
+      var response;
+      var expected = {
+        "time": "Fri, 02 Mar 2012 11:38:49 GMT",
+        "microtime": 0.321,
+        "msg": {
+          "test": "hello world"
+        },
+        "routingKey": "event.test.env.test.application.sz-eventsdTest"
+      };
+
+      var numSent = 0;
+
+      test_server = createTestServer(port, function (data) {
+        //response = JSON.parse(data);
+        //console.log(response);
+        numSent++;
+
+        if (numSent >= 6) {
+          done();
+        }
+      });
+
+      var events = new EventsD();
+
+      events.send('test', {test: 'hello world'}, function (err) {
+        expect(err).to.equal(null);
+      });
+
+      events.send('test', {test: 'hello world 2'}, function (err) {
+        expect(err).to.equal(null);
+      });
+
+      events.send('test', {test: 'hello world 3'}, function (err) {
+        expect(err).to.equal(null);
+      });
+
+      events.send('test', {test: 'hello world 4'}, function (err) {
+        expect(err).to.equal(null);
+      });
+
+      events.send('test', {test: 'hello world 5'}, function (err) {
+        expect(err).to.equal(null);
+      });
+
+      events.send('test', {test: 'hello world 6'}, function (err) {
+        expect(err).to.equal(null);
+      });
+    });
+
+    it('handles connection interuptions', function (done) {
+      var response;
+      var expected = {
+        "time": "Fri, 02 Mar 2012 11:38:49 GMT",
+        "microtime": 0.321,
+        "msg": {
+          "test": "hello world"
+        },
+        "routingKey": "event.test.env.test.application.sz-eventsdTest"
+      };
+
+      test_server = createTestServer(port, function (data) {
+        //response = JSON.parse(data);
+        //console.log(response);
+      });
+
+      var events = new EventsD({autoClose: false});
+
+      events.send('test', {test: 'hello world'}, function (err) {
+        expect(err).to.equal(null);
+
+        events.close();
+
+        events.send('test', {test: 'hello world 2'}, function (err) {
+          expect(err).to.equal(null);
+          events.close();
+          done();
+        });
+      });
+    });
+
     // Teardown
     afterEach(function () {
       if (test_server) {
