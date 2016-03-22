@@ -1,6 +1,6 @@
 {
   "name": "eventsd",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A library for interfacing with EventsD",
   "main": "./lib/eventsd",
   "homepage": "https://github.com/sazze/node-eventsd",
