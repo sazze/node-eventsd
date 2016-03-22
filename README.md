@@ -1,4 +1,4 @@
-sz-eventsd
+eventsd
 ====================
 
 A library for interfacing with EventsD
@@ -7,7 +7,7 @@ Usage
 ====================
 
 ``` js
-    var EventsD = require('sz-eventsd');
+    var EventsD = require('eventsd');
 
     var events = new EventsD();
 
@@ -66,9 +66,9 @@ Run Tests
 
 ====================
 
-#### Author: [Craig Thayer](https://gitlab.sazze.com/u/craig)
+#### Author: [Craig Thayer](https://githum.com/cthayer)
 
-#### License: Copyright 2014 by Sazze, Inc.  All rights reserved.
+#### License: ISC
 
 See LICENSE for the full license text.
 
