@@ -66,7 +66,7 @@ Run Tests
 
 ====================
 
-#### Author: [Craig Thayer](https://githum.com/cthayer)
+#### Author: [Craig Thayer](https://github.com/cthayer)
 
 #### License: ISC
 
